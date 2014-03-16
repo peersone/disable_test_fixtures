@@ -32,7 +32,7 @@ module DisableTestFixtures
     end
 
     # The opposite of #disable_fixtures_for.
-    # 
+    #
     # NOTE: fixture disabling is inherited thru the inheritance chain
     # thus if You've disabled them in super (e.g. ActiveSupport::TestCase)
     # there's no need to disable them again.
@@ -79,8 +79,6 @@ module DisableTestFixtures
 
   end
 
-  Fixtures = defined?(ActiveRecord::Fixtures) ? ActiveRecord::Fixtures : Fixtures
-  
   def fixtures_disabled?
     self.class.fixtures_disabled?(method_name)
   end
@@ -118,7 +116,7 @@ module DisableTestFixtures
         connection.begin_db_transaction
       end
     else
-      Fixtures.reset_cache # just to be sure ...
+      ActiveRecord::Fixtures.reset_cache # just to be sure ...
     end
   end
 
@@ -146,7 +144,7 @@ module DisableTestFixtures
               fixtures.table_rows.keys.each do |table|
                 connection.delete "DELETE FROM #{connection.quote_table_name(table)}", 'Fixture Delete'
               end
-              
+
             end
           end
         end
@@ -159,7 +157,7 @@ module DisableTestFixtures
       end
 
       already_loaded_fixtures.clear
-      Fixtures.reset_cache # required to not break when multiple tests are run
+      ActiveRecord::Fixtures.reset_cache # required to not break when multiple tests are run
     end
 
     #
